@@ -1,0 +1,18 @@
+apiVersion: v1
+entries:
+  base:
+  - apiVersion: v2
+    appVersion: 1.13.5-tetrate-multiarch-v1
+    created: "2022-06-16T12:18:50.810654-06:00"
+    description: Helm chart for deploying Istio cluster resources and CRDs
+    digest: 508ba62dbcf85e4d830e5c0fc54aca39114e24647f6c7607a2b001bad160e563
+    icon: https://istio.io/latest/favicons/android-192x192.png
+    keywords:
+    - istio
+    name: base
+    sources:
+    - http://github.com/istio/istio
+    urls:
+    - https://github.com/psbrar99/helmchart/releases/download/base-1.13.5/base-1.13.5.tgz
+    version: 1.13.5
+generated: "2022-06-16T12:18:50.810678-06:00"
