@@ -40,7 +40,6 @@ helm install istio-base tetratelabs/base -n istio-system --version 1.13.3
 helm show values tetratelabs/istiod
 // to check the  output of the chart in fully rendered Kubernetes resource templates
 helm template tetratelabs/istiod
-helm install istiod tetratelabs/istiod -n istio-system --version 1.13.3
 ```
 
 4. Install istiod chart which install istio control plane
@@ -92,6 +91,7 @@ kubectl delete namespace istio-ingress istio-system
 ```
 
 ## Configuration options to customize installation by overridding defaults using --set <:> command in helm install command.
+
 
 | **Parameter**                     | **Description**                                 | **Values**              | **Default**                      |
 |-----------------------------------|-------------------------------------------------|-------------------------|----------------------------------|
