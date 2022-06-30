@@ -92,7 +92,7 @@ entries:
   gateway:
   - apiVersion: v2
     appVersion: 1.13.5-tetrate-multiarch-v1
-    created: "2022-06-30T00:10:31.23203-06:00"
+    created: "2022-06-30T00:16:23.254379-06:00"
     description: Helm chart for deploying Istio gateways
     digest: f802337da3bda7a3c9ed62d5bf91d58251e54dfedfe0977a610aed111e0f9f14
     icon: https://istio.io/latest/favicons/android-192x192.png
@@ -107,7 +107,7 @@ entries:
     version: 1.13.5
   - apiVersion: v2
     appVersion: 1.13.3-tetrate-multiarch-v1
-    created: "2022-06-30T00:10:31.107926-06:00"
+    created: "2022-06-30T00:16:23.134039-06:00"
     description: Helm chart for deploying Istio gateways
     digest: 14b5cfa3272b59d38f2041a3fc65beafc2fc55ddac77a8d22377c61ee36451b6
     icon: https://istio.io/latest/favicons/android-192x192.png
@@ -374,4 +374,4 @@ entries:
     urls:
     - https://github.com/psbrar99/helmchart/releases/download/istiod-remote-1.13.3-tetrate-multiarch-v1/istiod-remote-1.13.3-tetrate-multiarch-v1.tgz
     version: 1.13.3-tetrate-multiarch-v1
-generated: "2022-06-30T00:10:31.232113-06:00"
+generated: "2022-06-30T00:16:23.254518-06:00"
