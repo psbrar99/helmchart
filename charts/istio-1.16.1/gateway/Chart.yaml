@@ -1,7 +1,6 @@
 apiVersion: v2
 name: gateway
 description: Helm chart for deploying Istio gateways
-type: application
 version: 1.16.1-tetrate-v0
 appVersion: 1.16.1-tetrate-v0
 sources:
