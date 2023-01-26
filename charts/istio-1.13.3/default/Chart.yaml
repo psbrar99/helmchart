@@ -1,6 +1,6 @@
 apiVersion: v2
 name: istio-default
-version: 1.0.0
+version: 1.13.5
 appVersion: 1.0.0
 description: Helm chart for istio default revision components.
 keywords:

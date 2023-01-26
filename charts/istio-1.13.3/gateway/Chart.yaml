@@ -1,14 +1,14 @@
 apiVersion: v2
 name: gateway
-version: 1.13.3
+version: 1.13.5
 appVersion: 1.13.3-tetrate-multiarch-v1
 description: Helm chart for deploying Istio gateways
 sources:
-- http://github.com/istio/istio
-- https://istio.tetratelabs.io
+  - http://github.com/istio/istio
+  - https://istio.tetratelabs.io
 keywords:
-- istio
-- gateways
-- tid
-- istio-multiarch 
+  - istio
+  - gateways
+  - tid
+  - istio-multiarch
 icon: https://istio.tetratelabs.io/images/getistio-favicon.png
