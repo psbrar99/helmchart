@@ -4,7 +4,6 @@ name: base
 # with the appropriate version
 version: 1.16.2
 appVersion: 1.16.2-tetrate-v0
-tillerVersion: ">=2.7.2"
 description: Helm chart for deploying Istio cluster resources and CRDs
 keywords:
   - istio
