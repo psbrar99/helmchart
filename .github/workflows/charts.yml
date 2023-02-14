@@ -31,8 +31,6 @@ jobs:
           find ./charts/istio-$VERSION -name 'Chart.yaml'  -type f -exec yq -i '.version=env(VERSION)' {} \;
       - name: Install Helm
         uses: azure/setup-helm@v3
-      - name: Copy artifacts
-        uses: 
       - name: Package chart Helm
         run : |
           helm package charts/istio-1.16.2/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
