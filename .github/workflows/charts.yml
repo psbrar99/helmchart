@@ -24,7 +24,7 @@ jobs:
         uses: azure/setup-helm@v3
       - name: Package chart Helm
         run : |
-          helm package charts/istio-1.16.1/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
+          helm package charts/istio-1.16.2/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         with:
