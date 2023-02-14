@@ -1,8 +1,8 @@
 name: Release Charts
+
 on:
   push:
-    branches:
-      - main
+    tags: 
 
 jobs:
   release:
@@ -20,17 +20,27 @@ jobs:
         run: |
           git config user.name "psbrar99"
           git config user.email "psbrar99@users.noreply.github.com"
-      - name: Install Helm
-        uses: azure/setup-helm@v3
-      - name: Package chart Helm
-        run : |
-          helm package charts/istio-1.16.2/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
-      - name: Run chart-releaser
-        uses: helm/chart-releaser-action@v1.5.0
-        with:
-          charts_dir: charts
-          charts_repo_url: https://psbrar99.github.io/helmchart/
-          config: cr.yaml
-          skip_packaging: true
-        env:
-          CR_TOKEN: "${{ secrets.RELEASE_SECRET }}"
+      - name: Get the charts
+        env: 
+          VERSION: 1.16.2
+        run: |
+          curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v0-linux-amd64.tar.gz'
+          tar -xvzf istio-$VERSION-tetrate-v0-linux-amd64.tar.gz
+          ls
+          
+      # - name: Install Helm
+      #   uses: azure/setup-helm@v3
+      # - name: Copy artifacts
+      #   uses: 
+      # - name: Package chart Helm
+      #   run : |
+      #     helm package charts/istio-1.16.2/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
+      # - name: Run chart-releaser
+      #   uses: helm/chart-releaser-action@v1.5.0
+      #   with:
+      #     charts_dir: charts
+      #     charts_repo_url: https://psbrar99.github.io/helmchart/
+      #     config: cr.yaml
+      #     skip_packaging: true
+      #   env:
+      #     CR_TOKEN: "${{ secrets.RELEASE_SECRET }}"
