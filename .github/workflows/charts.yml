@@ -16,20 +16,21 @@ jobs:
         uses: actions/checkout@v3
         with:
           fetch-depth: 0
-
       - name: Configure Git
         run: |
           git config user.name "psbrar99"
           git config user.email "psbrar99@users.noreply.github.com"
-
       - name: Install Helm
         uses: azure/setup-helm@v3
-
+      - name: Package chart Helm
+        run : |
+          helm package charts/istio-1.16.1/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         with:
           charts_dir: charts
           charts_repo_url: https://psbrar99.github.io/helmchart/
           config: cr.yaml
+          skip_packaging: true
         env:
           CR_TOKEN: "${{ secrets.RELEASE_SECRET }}"
