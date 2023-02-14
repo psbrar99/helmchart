@@ -24,9 +24,10 @@ jobs:
         env: 
           VERSION: 1.16.2
         run: |
-          curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v0-linux-amd64.tar.gz'
+          curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v0-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-tetrate-v0-linux-amd64.tar.gz
           ls
+          pwd
           
       # - name: Install Helm
       #   uses: azure/setup-helm@v3
