@@ -26,22 +26,22 @@ jobs:
         run: |
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v0-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-tetrate-v0-linux-amd64.tar.gz
-          ls
-          pwd
-          
-      # - name: Install Helm
-      #   uses: azure/setup-helm@v3
-      # - name: Copy artifacts
-      #   uses: 
-      # - name: Package chart Helm
-      #   run : |
-      #     helm package charts/istio-1.16.2/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
-      # - name: Run chart-releaser
-      #   uses: helm/chart-releaser-action@v1.5.0
-      #   with:
-      #     charts_dir: charts
-      #     charts_repo_url: https://psbrar99.github.io/helmchart/
-      #     config: cr.yaml
-      #     skip_packaging: true
-      #   env:
-      #     CR_TOKEN: "${{ secrets.RELEASE_SECRET }}"
+          mkdir -p charts/istio-$VERSION
+          cp -rf ./istio-$VERSION-tetrate-v0/manifests/charts/* charts/istio-$VERSION
+          find ./charts/istio-$VERSION -name 'Chart.yaml'  -type f -exec yq -i '.version=env(VERSION)' {} \;
+      - name: Install Helm
+        uses: azure/setup-helm@v3
+      - name: Copy artifacts
+        uses: 
+      - name: Package chart Helm
+        run : |
+          helm package charts/istio-1.16.2/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
+      - name: Run chart-releaser
+        uses: helm/chart-releaser-action@v1.5.0
+        with:
+          charts_dir: charts
+          charts_repo_url: https://psbrar99.github.io/helmchart/
+          config: cr.yaml
+          skip_packaging: true
+        env:
+          CR_TOKEN: "${{ secrets.RELEASE_SECRET }}"
