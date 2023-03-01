@@ -22,7 +22,7 @@ jobs:
           git config user.email "psbrar99@users.noreply.github.com"
       - name: Get the charts
         env: 
-          VERSION: 1.16.2
+          VERSION: 1.17.1
         run: |
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v0-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-tetrate-v0-linux-amd64.tar.gz
