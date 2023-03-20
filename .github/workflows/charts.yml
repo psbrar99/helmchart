@@ -24,9 +24,9 @@ jobs:
           git config user.email "psbrar99@users.noreply.github.com"
       - name: Get the tag
         id: get_tag
-        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
-        env:
-          TAG: ${{ steps.get_tag.outputs.TAG }}     
+        run: |
+          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
+          echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
       - name: Get the charts
         env: 
           VERSION: ${{ steps.get_tag.outputs.TAG }}
