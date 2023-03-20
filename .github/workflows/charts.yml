@@ -1,9 +1,11 @@
 name: Release Charts
 
 on:
-  push:
-    branches: 
-      - main
+  workflow_dispatch: 
+    inputs:
+      tag:
+        description: Tag [e.g. 1.7.8]
+        required: true
 jobs:
   release:
     # depending on default permission settings for your org (contents being read-only or read-write for workloads), you will have to add permissions
@@ -11,8 +13,6 @@ jobs:
     permissions:
       contents: write
     runs-on: ubuntu-latest
-    env:
-      VERSION: 1.17.1
     steps:
       - name: Checkout
         uses: actions/checkout@v3
@@ -22,9 +22,14 @@ jobs:
         run: |
           git config user.name "psbrar99"
           git config user.email "psbrar99@users.noreply.github.com"
+      - name: Get the tag
+        id: get_tag
+        run: echo ::set-output name=TAG::${GITHUB_REF#refs/tags/}
+        env:
+          TAG: ${{ steps.get_tag.outputs.TAG }}     
       - name: Get the charts
         env: 
-          VERSION: 1.17.1
+          VERSION: ${{ steps.get_tag.outputs.TAG }}
         run: |
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v0-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-tetrate-v0-linux-amd64.tar.gz
@@ -44,6 +49,8 @@ jobs:
       - name: Install Helm
         uses: azure/setup-helm@v3
       - name: Package chart Helm
+        env: 
+          VERSION: ${{ steps.get_tag.outputs.TAG }}
         run : |
           helm package charts/istio-$VERSION/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
       - name: Run chart-releaser
