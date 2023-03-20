@@ -31,6 +31,16 @@ jobs:
           mkdir -p charts/istio-$VERSION
           cp -rf ./istio-$VERSION-tetrate-v0/manifests/charts/* charts/istio-$VERSION
           find ./charts/istio-$VERSION -name 'Chart.yaml'  -type f -exec yq -i '.version=env(VERSION)' {} \;
+          sed -i '/\$whv := dict/,8d' charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
+          sed -e '4i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}' -i charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
+          sed -i '/\$whv := dict/,7d' charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
+          sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v9
+        with:
+          message: Show GitHub Actions logo
+          committer_name: GitHub Actions
+          committer_email: actions@github.com
       - name: Install Helm
         uses: azure/setup-helm@v3
       - name: Package chart Helm
