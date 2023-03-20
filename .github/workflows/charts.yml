@@ -40,6 +40,7 @@ jobs:
           sed -e '4i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}' -i charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
           sed -i '/\$whv := dict/,7d' charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
           sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
+          rm -rf istio-$VERSION-*
       - name: Commit changes
         uses: EndBug/add-and-commit@v9
         with:
