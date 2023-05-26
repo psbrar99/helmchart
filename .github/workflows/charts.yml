@@ -42,14 +42,14 @@ jobs:
           sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
           rm -rf istio-$VERSION-*
       - name: Commit changes
-        env: 
-          VERSION: ${{ steps.get_tag.outputs.VERSION }}
         uses: EndBug/add-and-commit@v9
         with:
           message: Show GitHub Actions logo
           committer_name: GitHub Actions
           committer_email: actions@github.com
-          new_branch: $VERSION
+          new_branch: ${{env.VERSION}}
+        env: 
+          VERSION: ${{ steps.get_tag.outputs.VERSION }}
       - name: Install Helm
         uses: azure/setup-helm@v3
       - name: Package chart Helm
