@@ -50,6 +50,7 @@ jobs:
           committer_name: GitHub Actions
           committer_email: actions@github.com
           new_branch: ${{env.VERSION}}
+          push: false
       - name: Install Helm
         uses: azure/setup-helm@v3
       - name: Package chart Helm
