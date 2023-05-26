@@ -42,6 +42,8 @@ jobs:
           sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
           rm -rf istio-$VERSION-*
       - name: Commit changes
+        env: 
+          VERSION: ${{ steps.get_tag.outputs.VERSION }}
         uses: EndBug/add-and-commit@v9
         with:
           message: Show GitHub Actions logo
