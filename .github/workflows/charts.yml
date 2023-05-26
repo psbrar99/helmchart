@@ -49,7 +49,7 @@ jobs:
           message: Show GitHub Actions logo
           committer_name: GitHub Actions
           committer_email: actions@github.com
-          new_branch: ${{env.VERSION}}
+          new_branch: ${{env.VERSION}}-istio
           push: false
       - name: Install Helm
         uses: azure/setup-helm@v3
