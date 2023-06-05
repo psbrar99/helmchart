@@ -31,7 +31,7 @@ jobs:
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
         run: |
-          curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v1-linux-amd64.tar.gz"
+          curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-linux-amd64.tar.gz
           mkdir -p charts/istio-$VERSION
           cp -rf ./istio-$VERSION/manifests/charts/* charts/istio-$VERSION
