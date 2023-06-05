@@ -32,9 +32,9 @@ jobs:
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
         run: |
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-tetrate-v1-linux-amd64.tar.gz"
-          tar -xvzf istio-$VERSION-tetrate-v1-linux-amd64.tar.gz
+          tar -xvzf istio-$VERSION-linux-amd64.tar.gz
           mkdir -p charts/istio-$VERSION
-          cp -rf ./istio-$VERSION-tetrate-v1/manifests/charts/* charts/istio-$VERSION
+          cp -rf ./istio-$VERSION/manifests/charts/* charts/istio-$VERSION
           find ./charts/istio-$VERSION -name 'Chart.yaml'  -type f -exec yq -i '.version=env(VERSION)' {} \;
           sed -i '/\$whv := dict/,8d' charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
           sed -e '4i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}' -i charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
@@ -57,7 +57,7 @@ jobs:
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
         run : |
-          helm package charts/istio-$VERSION/{base-v1,default-v1,gateway-v1,gateways-v1/istio-ingress-v1,gateways-v1/istio-egress-v1,istio-cni-v1,istio-control/istio-discovery-v1,istio-operator-v1,istiod-remote-v1} --destination .deploy
+          helm package charts/istio-$VERSION/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         with:
