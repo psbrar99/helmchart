@@ -1,0 +1,34 @@
+architectures:
+- linux/amd64
+- linux/arm64
+dashboards:
+  istio-extension-dashboard: 13277
+  istio-mesh-dashboard: 7639
+  istio-performance-dashboard: 11829
+  istio-service-dashboard: 7636
+  istio-workload-dashboard: 7630
+  pilot-dashboard: 7645
+dependencies:
+  api:
+    sha: 6a21629f95a926e66d2f92e209af82229147fb2b
+  client-go:
+    goversionenabled: true
+    sha: da7718d1981d76659aeb2d797198275a6c75400f
+  envoy:
+    sha: b07cce42ccaf39a37d2f1ac54995cc048d4db92d
+  istio:
+    sha: 700c00abce75c491e3b127146a89974df280199f
+  pkg:
+    sha: e58a70bb0f5705a3b989e10ef2a46ad993f70e75
+  proxy:
+    sha: 55965403fd2b9ada1bf406561b1f18b159d99428
+  release-builder:
+    sha: 95138f87787d5d8dbaac970ca5516fb9a59bdaba
+  test-infra:
+    sha: 22b53fdb0c77f45c2be1f6ce524231404c6217d3
+  tools:
+    sha: bb3631e5607909c78f1ed835c938731fb751754c
+docker: containers.istio.tetratelabs.com
+dockerOutput: tar
+skipGenerateBillOfMaterials: false
+version: 1.16.4-tetrate-v2
