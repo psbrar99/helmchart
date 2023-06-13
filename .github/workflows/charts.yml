@@ -62,7 +62,9 @@ jobs:
       - name: Package chart Helm
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
+          RELEASE_TAG: ${{ steps.release_tag.outputs.RELEASE_TAG}}
         run : |
+          echo $RELEASE_TAG
           helm package charts/istio-$RELEASE_TAG/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
