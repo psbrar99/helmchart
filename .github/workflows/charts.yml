@@ -30,7 +30,8 @@ jobs:
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
         id: release_tag
         run: |
-          echo ::set-output name=RELEASE_TAG::$(echo $RELEASE_TAG | sed 's/-.*//g')
+          echo ::set-output name=RELEASE_TAG::$(echo $VERSION | sed 's/-.*//g')
+          echo $VERSION  $RELEASE_TAG
       
       - name: Get the charts
         env: 
