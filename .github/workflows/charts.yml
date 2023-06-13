@@ -23,24 +23,29 @@ jobs:
       - name: Get the tag
         id: get_tag
         run: |
-          echo "Tag name from GITHUB_REF_NAME: $GITHUB_REF_NAME"
-          echo "TAG : ${GITHUB_REF#refs/tags/}"
           echo "TAG=${GITHUB_REF#refs/*/}" >> $GITHUB_OUTPUT
           echo ::set-output name=VERSION::${GITHUB_REF#refs/tags/}
+      - name: RELEASE_TAG
+        env: 
+          VERSION: ${{ steps.get_tag.outputs.VERSION }}
+        id: release_tag
+        run: |
+          echo ::set-output name=RELEASE_TAG::$(echo $RELEASE_TAG | sed 's/-.*//g')
+      
       - name: Get the charts
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
         run: |
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-linux-amd64.tar.gz
-          mkdir -p charts/istio-$VERSION
-          cp -rf ./istio-$VERSION/manifests/charts/* charts/istio-$VERSION
-          find ./charts/istio-$VERSION -name 'Chart.yaml'  -type f -exec yq -i '.version=env(VERSION)' {} \;
-          sed -i '/\$whv := dict/,8d' charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
-          sed -e '4i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}' -i charts/istio-$VERSION/istio-control/istio-discovery/templates/revision-tags.yaml
-          sed -i '/\$whv := dict/,7d' charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
-          sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$VERSION/istio-control/istio-discovery/templates/mutatingwebhook.yaml
-          rm -rf istio-$VERSION-*
+          mkdir -p charts/istio-$RELEASE_TAG
+          cp -rf ./istio-$RELEASE_TAG/manifests/charts/* charts/istio-$RELEASE_TAG
+          find ./charts/istio-$RELEASE_TAG -name 'Chart.yaml'  -type f -exec yq -i '.version=env(RELEASE_TAG)' {} \;
+          sed -i '/\$whv := dict/,8d' charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/revision-tags.yaml
+          sed -e '4i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}' -i charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/revision-tags.yaml
+          sed -i '/\$whv := dict/,7d' charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/mutatingwebhook.yaml
+          sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/mutatingwebhook.yaml
+          rm -rf istio-$RELEASE_TAG-*
       - name: Commit changes
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
@@ -57,7 +62,7 @@ jobs:
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
         run : |
-          helm package charts/istio-$VERSION/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
+          helm package charts/istio-$RELEASE_TAG/{base,default,gateway,gateways/istio-ingress,gateways/istio-egress,istio-cni,istio-control/istio-discovery,istio-operator,istiod-remote} --destination .deploy
       - name: Run chart-releaser
         uses: helm/chart-releaser-action@v1.5.0
         with:
