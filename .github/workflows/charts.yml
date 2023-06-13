@@ -40,13 +40,13 @@ jobs:
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-linux-amd64.tar.gz
           mkdir -p charts/istio-$RELEASE_TAG
-          cp -rf ./istio-$RELEASE_TAG/manifests/charts/* charts/istio-$RELEASE_TAG
+          cp -rf ./istio-$VERSION/manifests/charts/* charts/istio-$RELEASE_TAG
           find ./charts/istio-$RELEASE_TAG -name 'Chart.yaml'  -type f -exec yq -i '.version=env(RELEASE_TAG)' {} \;
           sed -i '/\$whv := dict/,8d' charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/revision-tags.yaml
           sed -e '4i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}' -i charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/revision-tags.yaml
           sed -i '/\$whv := dict/,7d' charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/mutatingwebhook.yaml
           sed -e '3i {{- $whv := dict "revision" .Values.revision "injectionPath" .Values.istiodRemote.injectionPath "injectionURL" .Values.istiodRemote.injectionURL "namespace" .Release.Namespace }}'  -i charts/istio-$RELEASE_TAG/istio-control/istio-discovery/templates/mutatingwebhook.yaml
-          rm -rf istio-$RELEASE_TAG-*
+          rm -rf istio-$VERSION/-*
       - name: Commit changes
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
