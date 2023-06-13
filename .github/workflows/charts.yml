@@ -35,7 +35,7 @@ jobs:
       - name: Get the charts
         env: 
           VERSION: ${{ steps.get_tag.outputs.VERSION }}
-          RELEASE_TAG: ${{ steps.release_tag.outputs.ELEASE_TAG}}
+          RELEASE_TAG: ${{ steps.release_tag.outputs.RELEASE_TAG}}
         run: |
           curl -O "https://dl.getistio.io/public/raw/files/istio-$VERSION-linux-amd64.tar.gz"
           tar -xvzf istio-$VERSION-linux-amd64.tar.gz
